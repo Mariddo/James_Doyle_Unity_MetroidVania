@@ -12,6 +12,8 @@ public class BulletBehavior : MonoBehaviour
     
     public GameObject hitEffect;
 
+    public int damageAmount;
+
     // Start is called before the first frame update
 
     void Start() {
@@ -25,6 +27,12 @@ public class BulletBehavior : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col) {
 
+        if(col.tag == "Enemy") {
+
+            Debug.Log("Hitting an Enemy");
+            col.GetComponent<Enemy>().DamageEnemy(damageAmount);
+        }
+        
         Instantiate(hitEffect, gameObject.transform.position, gameObject.transform.rotation);
         Destroy(gameObject);
         

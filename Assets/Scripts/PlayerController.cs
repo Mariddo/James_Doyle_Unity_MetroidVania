@@ -44,10 +44,15 @@ public class PlayerController : MonoBehaviour
     private float afterImageCounter;
     public Color afterImageColor;
 
+
+    private Player player;
+
     // Start is called before the first frame update
     void Start()
     {
         isOnGround = false;
+
+        player = GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -118,7 +123,10 @@ public class PlayerController : MonoBehaviour
         if(Input.GetButtonDown("Fire1")) {
 
             anim.SetTrigger("Shoot");
-            Instantiate(bullet, firePosition.position, firePosition.rotation).moveDir = new Vector2(transform.localScale.x, 0);
+            BulletBehavior bullet1 = Instantiate(bullet, firePosition.position, firePosition.rotation);
+
+            bullet1.moveDir = new Vector2(transform.localScale.x, 0);
+            bullet1.damageAmount = player.attackDamage;
         }
 
     }
