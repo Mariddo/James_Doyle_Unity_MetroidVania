@@ -25,11 +25,24 @@ public class PlayerController : MonoBehaviour
 
     public Animator anim;
 
-    public SpriteRenderer sr;
-
     public Transform firePosition;
     public BulletBehavior bullet;
 
+
+    [Header("Dashing")]
+    public float dashSpeed = 20f;
+    public float dashTime = 0.20f;
+    private float dashCounter;
+
+    public float dashRecoveryTime = 0.75f;
+    private float dashRecoveryCounter;
+
+    [Header ("AfterImage Work")]
+    public SpriteRenderer sr;
+    public SpriteRenderer afterImage;
+    public float afterImageLifetime = 0.25f, afterImageInterval = 0.15f;
+    private float afterImageCounter;
+    public Color afterImageColor;
 
     // Start is called before the first frame update
     void Start()
@@ -40,18 +53,24 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Walk();
-        Jump();
-        BetterJump();
 
+        if(dashCounter <= 0) {
+            Walk();
+            Jump();
+            BetterJump();
+
+            
+            SetDirection();
+            Fire();
+        }
         
+        Dash();
+        
+        SetAnims();
 
         isOnGround = Physics2D.OverlapCircle(groundChecker.position, .2f, whatIsGround);
 
-        SetAnims();
-        SetDirection();
-
-        Fire();
+        
     }
     
     void Walk() {
@@ -102,5 +121,59 @@ public class PlayerController : MonoBehaviour
             Instantiate(bullet, firePosition.position, firePosition.rotation).moveDir = new Vector2(transform.localScale.x, 0);
         }
 
+    }
+
+    void Dash() {
+
+        if(dashRecoveryCounter > 0) {
+            dashRecoveryCounter -= Time.deltaTime;
+        }
+        
+        if(Input.GetButtonDown("Fire2") && dashRecoveryCounter <= 0) {
+
+            dashCounter = dashTime;
+            dashRecoveryCounter = dashRecoveryTime;
+
+            ReloadAfterImageInterval();
+        }
+
+        if(dashCounter > 0) {
+
+            dashCounter = dashCounter - Time.deltaTime;
+
+            rb.velocity = new Vector2(dashSpeed * transform.localScale.x, rb.velocity.y);
+
+            HandleAfterImages();
+        } 
+    }
+
+    void ReloadAfterImageInterval() {
+
+        afterImageCounter = afterImageInterval;
+    }
+
+    void HandleAfterImages() {
+
+        if(afterImageCounter > 0.0f) {
+            afterImageCounter -= Time.deltaTime;
+        }
+
+        if(afterImageCounter <= 0.0f) {
+            afterImageCounter = afterImageInterval;
+
+            ShowAfterImage();
+        }
+    }
+
+    void ShowAfterImage() {
+
+            SpriteRenderer image = Instantiate(afterImage, transform.position, transform.rotation);
+
+
+            image.sprite = sr.sprite;
+            image.transform.localScale = transform.localScale;
+            image.color = afterImageColor;
+
+            Destroy(image.gameObject, afterImageLifetime);
     }
 }
