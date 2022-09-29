@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
+
+    private void Awake() {
+
+        if(instance == null) {
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else {
+            Destroy(gameObject);
+        }
+        
+
+    }
+    
     public int maxHitPoints = 99;
 
     public int currentHitPoints;
@@ -48,7 +63,9 @@ public class Player : MonoBehaviour
 
         if(currentHitPoints <= 0) {
             currentHitPoints = 0;
-            gameObject.SetActive(false);
+        
+            RespawnController.instance.Respawn();
+    
         } else {
 
             invincibilityCounter = invincibilityLength;
@@ -71,4 +88,9 @@ public class Player : MonoBehaviour
         }
       
     }   
+
+    public void FullyRestoreHealth() {
+
+        currentHitPoints = maxHitPoints;
+    }
 }

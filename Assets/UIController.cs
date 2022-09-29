@@ -5,9 +5,22 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    public TMP_Text text;
+    public static UIController instance;
     
-    public Player player;
+    private void Awake() {
+
+        if(instance == null) {
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else{
+            Destroy(gameObject);
+        }
+        
+
+    }
+
+    public TMP_Text text;
 
     // Start is called before the first frame update
     void Start()
@@ -18,14 +31,8 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player == null) {
+        text.text = Player.instance.currentHitPoints.ToString();
 
-            player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        }
 
-        if (player != null) {
-
-            text.text = player.currentHitPoints.ToString();
-        }
     }
 }
