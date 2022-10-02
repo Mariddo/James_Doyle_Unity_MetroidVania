@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8774085773638665218}
   - component: {fileID: 8774085773638665219}
   - component: {fileID: 1157332237}
+  - component: {fileID: 3433733935538674014}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -108,6 +109,18 @@ MonoBehaviour:
   invincibilityLength: 0.75
   flashLength: 0.15
   sr: {fileID: 8774085774211644821}
+--- !u!114 &3433733935538674014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8774085773638665220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02cb392a2af06154d81426dbdf1638bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8774085774211644823
 GameObject:
   m_ObjectHideFlags: 0

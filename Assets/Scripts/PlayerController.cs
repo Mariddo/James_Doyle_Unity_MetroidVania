@@ -47,12 +47,16 @@ public class PlayerController : MonoBehaviour
 
     private Player player;
 
+    private PlayerAbilityTracker playerAbilityTracker;
+
+
     // Start is called before the first frame update
     void Start()
     {
         isOnGround = false;
 
         player = GetComponent<Player>();
+        playerAbilityTracker = GetComponent<PlayerAbilityTracker>();
 
         AudioManager.instance.PlayLevelMusic();
     }
@@ -139,7 +143,7 @@ public class PlayerController : MonoBehaviour
             dashRecoveryCounter -= Time.deltaTime;
         }
         
-        if(Input.GetButtonDown("Fire2") && dashRecoveryCounter <= 0) {
+        if(Input.GetButtonDown("Fire2") && dashRecoveryCounter <= 0 && playerAbilityTracker.canDash) {
 
             dashCounter = dashTime;
             dashRecoveryCounter = dashRecoveryTime;
