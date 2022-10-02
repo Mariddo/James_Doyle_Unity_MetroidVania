@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour
         isOnGround = false;
 
         player = GetComponent<Player>();
+
+        AudioManager.instance.PlayLevelMusic();
     }
 
     // Update is called once per frame
