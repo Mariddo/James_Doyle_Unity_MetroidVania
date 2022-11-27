@@ -47,11 +47,21 @@ public class DoorController : MonoBehaviour
 
         yield return new WaitForSeconds(timeToEnterNextArea);
 
+        DoorSavesInfo();
+
         SceneManager.LoadScene(nextAreaToEnter);
 
         RespawnController.instance.SetSpawn(exitPoint);
 
         Player.instance.transform.position = exitPoint;
+    }
+
+    void DoorSavesInfo() {
+
+        PlayerPrefs.SetString("ContinueLevel", nextAreaToEnter);
+        PlayerPrefs.SetFloat("PosX", exitPoint.x);
+        PlayerPrefs.SetFloat("PosY", exitPoint.y);
+        PlayerPrefs.SetFloat("PosZ", exitPoint.z);
     }
 
 }
